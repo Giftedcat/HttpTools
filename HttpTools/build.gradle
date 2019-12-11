@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    productFlavors {
+    }
+    useLibrary 'org.apache.http.legacy'
+
+    //生成jar包
+    task makeJar(type: Copy) {
+        delete 'build/outputs/network.jar'
+        from('build/intermediates/packaged-classes/release/') //jar文件来源
+        into('build/libs/') //生成路径
+        include('classes.jar')
+        rename('classes.jar', 'HttpTools1.0.0.jar') //命名为network.jar
+    }
+
+}
+repositories {
+    jcenter()
+}
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+
+    api "com.android.support:recyclerview-v7:27.1.0"
+    api "com.android.support:support-v4:27.1.0"
+    api "com.android.support:appcompat-v7:27.1.0"
+    api 'com.isseiaoki:simplecropview:1.0.13'
+    api 'com.github.bumptech.glide:glide:3.7.0'
+}
